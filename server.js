@@ -1,3 +1,8 @@
+const express = require('express');
+const app = express();
+
+app.use(express.static('public'));
+
 const trilhas = [
     {
     titulo: 'Dados',
@@ -49,13 +54,9 @@ const trilhas = [
     }
 ];
 
-const trilhasContainer = document.querySelector('.container-trilhas');
+app.get('/trilhas', (req, res) => {
+    res.json(trilhas);
+});
 
-const trilhasHtml = trilhas.map(trilha => 
-    `<section class="trilha">
-        <h2 class="titulo-trilha">${trilha.titulo}</h2>
-        ${ trilha.paragrafos.map(paragrafo => `<p class="paragrafo-trilha">${paragrafo}</p>`).join('') }
-        <a href="${trilha.linkEmenta}" class="link-ementa" target="_blank">Conferir ementa</a>
-    </section>`);
 
-trilhasContainer.innerHTML = trilhasHtml.join('');
+app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
